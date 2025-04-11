@@ -1,58 +1,88 @@
-import { useState } from 'react'
 import {
   DataSheetGrid,
   keyColumn,
   textColumn,
+  intColumn,
 } from 'react-datasheet-grid'
 
-// データの型定義
-type RowData = {
-  [key: string]: string; // すべてのカラムが文字列を持つ
-};
+import { useForm, FormProvider } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-// Import the style only once in your app!
 import 'react-datasheet-grid/dist/style.css'
-import { useForm } from 'react-hook-form';
+import { FormValues, RowValue, schema } from './type';
+import { AcColumn } from './AcColumn';
+
+
+
 
 export const Example = () => {
-
 // 12列のカラム定義を自動生成
-const columns = Array.from({ length: 12 }, (_, i) => ({ ...keyColumn(`column-${i + 1}`, textColumn), title:`column-${i + 1}`}))
+const numberColumns = Array.from({ length: 12 }, (_, i) => ({ ...keyColumn(`column-${i + 1}`, textColumn), title:`column-${i + 1}`}))
+const options = [
+  {label : "hoge", value: "hogeValue"},
+  {label : "fuga", value: "fugaValue"},
+  {label : "piyo", value: "piyoValue"}
+]
+const columns = [
+  { ...keyColumn(`userName`, textColumn), title:`名前`},
+  { ...keyColumn(`empNo`, intColumn), title:`社員番号`},
+  { ...keyColumn(`ac`, AcColumn({ items : options})), title:`補完`},
+  ...numberColumns
+]
+
 
 // 1000行のデータを自動生成
-const rows = Array.from({ length: 1000 }, (_, rowIndex) => {
-  const row: RowData = {};
-  for (let colIndex = 1; colIndex <= 12; colIndex++) {
-    row[`column-${colIndex}`] = `Row ${rowIndex + 1} Col ${colIndex}`;
-  }
+const data = Array.from({ length: 1000 }, (_, rowIndex) => {
+  const row: RowValue = {
+    empNo : rowIndex,
+    userName : "john miller",
+    ac : undefined,
+    "column-1" : `Row ${rowIndex + 1} Col 1`,
+    "column-2" : `Row ${rowIndex + 1} Col 2`,
+    "column-3" : `Row ${rowIndex + 1} Col 3`,
+    "column-4" : `Row ${rowIndex + 1} Col 4`,
+    "column-5" : `Row ${rowIndex + 1} Col 5`,
+    "column-6" : `Row ${rowIndex + 1} Col 6`,
+    "column-7" : `Row ${rowIndex + 1} Col 7`,
+    "column-8" : `Row ${rowIndex + 1} Col 8`,
+    "column-9" : `Row ${rowIndex + 1} Col 9`,
+    "column-10" : `Row ${rowIndex + 1} Col 10`,
+    "column-11" : `Row ${rowIndex + 1} Col 11`,
+  }  
   return row;
 });
 
-const defaultValues = { data : rows}
-
-const { setValue, handleSubmit, watch } = useForm({
-  defaultValues,
+const methods = useForm<FormValues>({
+  defaultValues: {    rows : data  },
+  resolver: yupResolver(schema),
+  mode: "onChange", // onBlur, onChange両方ともそんなにパフォーマンスは悪くない
 });
 
-const data = watch("data"); // データ変更を監視
+const { handleSubmit, setValue, watch, formState: { errors } } = methods;
 
-const onSubmit = (formData : any) => {
-  console.log("送信データ:", formData);
-};
+const onSubmit = (data: FormValues) => {  console.log(data);};
+
+const rows = watch("rows");
 
 return (
-  <form onSubmit={handleSubmit(onSubmit)}>
+  <>
+  <FormProvider {...methods}>
+      <form onSubmit={        
+        handleSubmit(onSubmit, (errors) => console.log("error", errors))
+      }>
     <DataSheetGrid
-      value={data}
-      onChange={(newData) => {
-        console.log(newData)
-        setValue("data", newData, { shouldDirty: true })
+      value={rows}
+      onChange={(newRows : FormValues) => {
+        setValue("rows", newRows)    
       }}
       columns={
         columns
       }
     />
-    <button type="submit">送信</button>
-  </form>
+     <button type="submit">送信</button>
+      </form>
+    </FormProvider>
+    </>
 );
 }
+
