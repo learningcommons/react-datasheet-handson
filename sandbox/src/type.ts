@@ -4,7 +4,14 @@ import * as yup from "yup";
   const rowSchema = yup.object({
     userName: yup.string().required("名前は必須です"),
     empNo: yup.number().required("年齢は必須です").typeError("年齢は数値で入力してください"),
-    ac: yup.string(),
+    ac: yup.string().test({
+      name: 'not fugaValue',
+      message: '補完結果にfugaは利用できません',
+      test: function (value) {
+        console.log(value)
+        return value !== "fugaValue";
+      },
+    }),
     "column-1": yup.string(),
     "column-2": yup.string(),
     "column-3": yup.string(),

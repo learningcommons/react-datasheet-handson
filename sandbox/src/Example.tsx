@@ -36,7 +36,7 @@ const data = Array.from({ length: 1000 }, (_, rowIndex) => {
   const row: RowValue = {
     empNo : rowIndex,
     userName : "john miller",
-    ac : undefined,
+    ac : "hogeValue",
     "column-1" : `Row ${rowIndex + 1} Col 1`,
     "column-2" : `Row ${rowIndex + 1} Col 2`,
     "column-3" : `Row ${rowIndex + 1} Col 3`,
@@ -59,9 +59,7 @@ const methods = useForm<FormValues>({
 });
 
 const { handleSubmit, setValue, watch, formState: { errors } } = methods;
-
 const onSubmit = (data: FormValues) => {  console.log(data);};
-
 const rows = watch("rows");
 
 return (
@@ -80,7 +78,12 @@ return (
       }
     />
      <button type="submit">送信</button>
+     
       </form>
+     <div>
+      <span>errorZone</span>
+      <span>{`${JSON.stringify(errors, null, "\t")}`}</span>
+     </div>
     </FormProvider>
     </>
 );

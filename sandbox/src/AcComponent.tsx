@@ -29,14 +29,16 @@ type Choice = {
 
 
 export const AcInput: React.FC<Props<string>> = ({
+  onChange,
   inputRef,
   defaultValue,
-  onChange,
+
   // onBlur,
   // onFocus,
   // onKeyDown,
   items
 }) => {
+  const initialValue = React.useMemo( () => defaultValue, [defaultValue])
     const ref = React.useMemo<React.RefObject<HTMLInputElement | null>>(() => {
       if (inputRef) {
         return inputRef;
@@ -55,7 +57,7 @@ export const AcInput: React.FC<Props<string>> = ({
       <TextField
         autoFocus={false}
         margin="dense"
-        defaultValue={defaultValue}
+        defaultValue={initialValue}
         fullWidth
         select
         inputRef={ref}
@@ -68,7 +70,6 @@ export const AcInput: React.FC<Props<string>> = ({
         // onKeyDown={onKeyDown}
         autoComplete="off"
       >
-        
       {menuItems}
       </TextField>
     </>
