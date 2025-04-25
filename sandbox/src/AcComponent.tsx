@@ -2,7 +2,8 @@ import React, { KeyboardEventHandler, useLayoutEffect, useRef, useState } from '
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
-import { InputProps } from '@mui/material/Input';
+import { DataSheetGridInputTheme } from './DataSheetGridInputTheme';
+import { ThemeProvider } from '@mui/material';
 
 // イメージは { constItem : { fieldType: ImplFieldType.String,textValue: acItem.constOption.value} | ... } | { systemItemCode : {}}
 type MappingAcItem = string 
@@ -54,6 +55,7 @@ export const AcInput: React.FC<Props<string>> = ({
     
     return (
       <>
+      <ThemeProvider theme={DataSheetGridInputTheme}>
       <TextField
         autoFocus={false}
         margin="dense"
@@ -61,7 +63,8 @@ export const AcInput: React.FC<Props<string>> = ({
         fullWidth
         select
         inputRef={ref}
-        sx={{ backgroundColor: "common.white", m: 0 }}
+        
+        sx={{ backgroundColor: "common.white", m: 0, height: "100%" }}
         onChange={(e) => {
           onChange(e.target.value)
         }}
@@ -72,6 +75,7 @@ export const AcInput: React.FC<Props<string>> = ({
       >
       {menuItems}
       </TextField>
+      </ThemeProvider>
     </>
     )
   }
