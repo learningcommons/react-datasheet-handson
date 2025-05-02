@@ -63,7 +63,6 @@ export const AcInput: React.FC<Props<string>> = ({
         fullWidth
         select
         inputRef={ref}
-        
         sx={{ backgroundColor: "common.white", m: 0, height: "100%" }}
         onChange={(e) => {
           onChange(e.target.value)

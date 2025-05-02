@@ -32,3 +32,10 @@ export const schema = yup.object({
   
 export type RowValue = yup.InferType<typeof rowSchema>;
 export type FormValues = yup.InferType<typeof schema>
+
+
+type StyleProps =  React.CSSProperties & {
+  '--dsg-border-color' : string
+}
+
+

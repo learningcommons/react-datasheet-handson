@@ -1,54 +1,22 @@
-# React + TypeScript + Vite
+# このリポジトリで試したこと
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- react-datasheet-grid を使用して、yup と react-hook-form を組み合わせたフォームバリデーションの実装
+- react-datasheet-grid を使用して、Emotion（CSS in JS）でスタイリングのカスタマイズ
 
-Currently, two official plugins are available:
+# メモ
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## react-datasheet-grid と yup, react-hook-form の組み合わせ
 
-## Expanding the ESLint configuration
+このリポジトリでは、`react-datasheet-grid` を使用してデータグリッドを構築し、`yup` を利用してスキーマベースのバリデーションを実装しています。また、`react-hook-form` を活用してフォームの状態管理を行い、効率的なデータ入力とバリデーションを実現しています。
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+主なポイント:
+- yup を使用して、各行のデータに対するバリデーションルールを定義
+- react-hook-form の `useForm` を利用してフォーム全体の状態を管理
+- データグリッドの変更をリアルタイムでフォームの状態に反映
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## react-datasheet-grid と Emotion（CSS in JS）の組み合わせ
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+このリポジトリでは、`react-datasheet-grid` のスタイリングを `Emotion` を使用してカスタマイズしています。CSS in JS を活用することで、コンポーネントごとにスタイルを分離し、柔軟なデザイン変更を可能にしています。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+主なポイント:
+- Emotion の `css` を使用して、データグリッドのセルやヘッダーのスタイルを調整

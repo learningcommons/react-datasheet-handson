@@ -5,6 +5,9 @@ import {
   intColumn,
 } from 'react-datasheet-grid'
 
+/** @jsxImportSource @emotion/react */
+import {css} from "@emotion/react"
+
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -17,14 +20,14 @@ import { AcColumn } from './AcColumn';
 
 export const Example = () => {
 // 12列のカラム定義を自動生成
-const numberColumns = Array.from({ length: 12 }, (_, i) => ({ ...keyColumn(`column-${i + 1}`, textColumn), title:`column-${i + 1}`}))
+const numberColumns = Array.from({ length: 12 }, (_, i) => ({ ...keyColumn(`column-${i + 1}`, textColumn), title:`column-${i + 1}`, disabled: true}))
 const options = [
   {label : "hoge", value: "hogeValue"},
   {label : "fuga", value: "fugaValue"},
   {label : "piyo", value: "piyoValue"}
 ]
 const columns = [
-  { ...keyColumn(`userName`, textColumn), title:`名前`},
+  { ...keyColumn(`userName`, textColumn), title:`名前`, disabled: true},
   { ...keyColumn(`empNo`, intColumn), title:`社員番号`},
   { ...keyColumn(`ac`, AcColumn({ items : options})), title:`補完`},
   ...numberColumns
@@ -69,6 +72,18 @@ return (
         handleSubmit(onSubmit, (errors) => console.log("error", errors))
       }>
     <DataSheetGrid
+      style={{ 
+        '--dsg-border-color': 'white',
+        '--dsg-header-text-color' : 'block'
+      }}
+      css={css`
+        .dsg-cell {
+          border-top: solid 0.01px rgba(0, 0, 0, 0.12) 
+        }
+        .dsg-input {
+          font-size: 13px;
+        }
+      `}
       value={rows}
       onChange={(newRows : FormValues) => {
         setValue("rows", newRows)    
